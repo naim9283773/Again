@@ -11,23 +11,53 @@
       text-align: center;
       margin: 50px;
     }
+    img {
+      border-radius: 50%;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>Welcome to Telegram Web App</h1>
-  <p id="user-info">Fetching user info...</p>
+  <img id="user-photo" src="" alt="User Photo" width="100">
+  <p id="user-name">Loading...</p>
+  <p>Balance: <span id="user-balance">0</span></p>
+  <button id="earn-btn">Click and Earn</button>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
     const user = tg.initDataUnsafe?.user;
+    const userId = user?.id;
 
+    // Display user info
     if (user) {
-      document.getElementById('user-info').innerText = `Hello, ${user.username || user.first_name}!`;
-    } else {
-      document.getElementById('user-info').innerText = 'User information not available.';
+      document.getElementById('user-photo').src = user.photo_url || '';
+      document.getElementById('user-name').innerText = `${user.first_name || ''} ${user.last_name || ''}`;
     }
+
+    // Balance and button
+    const balanceElement = document.getElementById('user-balance');
+    const earnButton = document.getElementById('earn-btn');
+
+    earnButton.addEventListener('click', () => {
+      fetch('/api/click', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telegramId: userId }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          balanceElement.innerText = data.balance;
+        })
+        .catch((err) => console.error(err));
+    });
   </script>
 </body>
 </html>

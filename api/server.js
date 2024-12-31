@@ -1,11 +1,10 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const User = require('../models/User');
 const connectDB = require('./db');
 
-dotenv.config();
+// MongoDB সংযোগ করুন
 connectDB();
 
 const app = express();
@@ -25,8 +24,8 @@ app.post('/api/click', async (req, res) => {
     );
     res.json({ balance: user.balance });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+    console.error('Error updating balance:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

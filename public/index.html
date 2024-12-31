@@ -36,16 +36,30 @@
     const user = tg.initDataUnsafe?.user;
     const userId = user?.id;
 
-    // Display user info
-    if (user) {
-      document.getElementById('user-photo').src = user.photo_url || '';
-      document.getElementById('user-name').innerText = `${user.first_name || ''} ${user.last_name || ''}`;
-    }
-
-    // Balance and button
     const balanceElement = document.getElementById('user-balance');
     const earnButton = document.getElementById('earn-btn');
 
+    // Load user data and balance
+    fetch('/api/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        telegramId: userId,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        username: user.username,
+        photoUrl: user.photo_url,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById('user-photo').src = data.photoUrl || '';
+        document.getElementById('user-name').innerText = `${data.firstName || ''} ${data.lastName || ''}`;
+        balanceElement.innerText = data.balance;
+      })
+      .catch((err) => console.error(err));
+
+    // Update balance on button click
     earnButton.addEventListener('click', () => {
       fetch('/api/click', {
         method: 'POST',

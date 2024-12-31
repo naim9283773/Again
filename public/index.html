@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Web App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Telegram Web App</h1>
+  <p id="user-info">Fetching user info...</p>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const user = tg.initDataUnsafe?.user;
+
+    if (user) {
+      document.getElementById('user-info').innerText = `Hello, ${user.username || user.first_name}!`;
+    } else {
+      document.getElementById('user-info').innerText = 'User information not available.';
+    }
+  </script>
+</body>
+</html>

@@ -14,6 +14,11 @@ app.use(express.json());
 // Static files
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Root route to display welcome page
+app.get('/', (req, res) => {
+  res.send('Welcome to Telegram WebApp API! Use /api/user to POST user data.');
+});
+
 // API to handle user data
 app.post('/api/user', async (req, res) => {
   const { telegramId, firstName, lastName, username, photoUrl } = req.body;

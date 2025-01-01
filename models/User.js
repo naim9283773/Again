@@ -9,4 +9,4 @@ const UserSchema = new mongoose.Schema({
   balance: { type: Number, default: 0 },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('people', UserSchema); // Collection name is 'people'

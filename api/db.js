@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // MongoDB URI সরাসরি কোডে সংযুক্ত
 const MONGODB_URI =
-  'mongodb+srv://test:test@cluster0.us30o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+  'mongodb+srv://test:<db_password>@cluster0.us30o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 const connectDB = async () => {
   try {
